@@ -1,0 +1,13 @@
+{
+    "name": "cms-oop/cms-oop-project",
+    "version": "1.0.0",
+    "description": "OOP-based CMS with Tailwind CSS",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.1"
+    }
+}

@@ -90,11 +90,11 @@ $sel_page = $selected['page'];
 			}
 			?>
 			<form action="edit_subject.php?subj=<?php echo urlencode($sel_subject['id']); ?>" method="post">
-				<p class="mb-4 mt-4">Subject name:
-					<input type="text" name="menu_name" value="<?php echo $sel_subject['menu_name']; ?>" id="menu_name" />
+				<p class="mb-4 mt-4 ">Subject name:
+					<input type="text" name="menu_name" value="<?php echo $sel_subject['menu_name']; ?>" id="menu_name" class="pl-1 rounded-sm" />
 				</p>
-				<p class="mb-4">Position:
-					<select name="position">
+				<p class="mb-4 " >Position:
+					<select name="position" class="rounded-sm">
 						<?php
 							$subject_set = get_all_subjects(false); // Include hidden subjects
 							$subject_count = mysqli_num_rows($subject_set);

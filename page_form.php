@@ -44,8 +44,8 @@
 </p>
 
 <p>
-    <span class="mb-2 inline-block">Content:</span><br />
-    <textarea name="content" rows="20" cols="80"><?php
+    <span class="mb-2 inline-block ">Content:</span><br />
+    <textarea name="content" rows="20" cols="80" class="rounded-sm pl-1"><?php
         echo htmlspecialchars($sel_page['content'] ?? '');
     ?></textarea>
 </p>

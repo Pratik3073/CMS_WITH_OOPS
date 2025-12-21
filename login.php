@@ -36,23 +36,23 @@ if (isset($_POST['submit'])) {
         <a class="block text-[#D4E6F4] no-underline" href="index.php">Return to public site</a>
     </td>
 
-    <td class="pl-8 align-top bg-[#EEE4B9]">
-        <h2 class="text-[#8D0D19] mt-8">Staff Login</h2>
+    <td class="pl-8 pt-8 pb-8 pr-8 align-top bg-[#EEE4B9]">
+        <h2 class="text-[#8D0D19] mt-0 mb-6">Staff Login</h2>
 
         <?php if (!empty($message)) { ?>
-            <p><?php echo htmlspecialchars($message); ?></p>
+            <p class="mb-4"><?php echo htmlspecialchars($message); ?></p>
         <?php } ?>
 
         <form action="login.php" method="post">
-            <p>
+            <p class="mb-4">
                 Username:
-                <input type="text" name="username" />
+                <input type="text" name="username" class="ml-2" />
             </p>
-            <p>
+            <p class="mb-4">
                 Password:
-                <input type="password" name="password" />
+                <input type="password" name="password" class="ml-2" />
             </p>
-            <input type="submit" name="submit" value="Login" />
+            <input type="submit" name="submit" value="Login" class="mt-4" />
         </form>
     </td>
 </tr>

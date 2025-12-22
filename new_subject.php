@@ -9,7 +9,7 @@ use App\Utils\Navigation;
 use App\Models\Subject;
 
 $navigation = new Navigation();
-$selected = $navigation->findSelectedPage();
+$selected = $navigation->find_page_for_nav();
 $sel_subject = $selected['subject'];
 $sel_page = $selected['page'];
 

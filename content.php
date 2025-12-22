@@ -8,7 +8,7 @@ use App\Utils\Navigation;
 Helpers::confirm_logged_in(); //uses the scope resolution operator :: and means you are calling a static method.
 
 $navigation = new Navigation();
-$selected = $navigation->findSelectedPage();
+$selected = $navigation->find_page_for_nav();
 $sel_subject = $selected['subject'];
 $sel_page = $selected['page'];
 

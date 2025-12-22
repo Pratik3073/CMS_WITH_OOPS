@@ -71,7 +71,7 @@ use App\Utils\Navigation;
 
 /* MUST be called AFTER autoload */
 $navigation = new Navigation();
-$selected = $navigation->findSelectedPage();
+$selected = $navigation->find_page_for_nav();
 $sel_subject = $selected['subject'];
 $sel_page = $selected['page'];
 ?>

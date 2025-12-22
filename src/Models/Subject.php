@@ -33,18 +33,7 @@ class Subject
         return $result->fetch_assoc() ?: null;
     }
 
-    public function getAllSubject(int $subjectId, bool $public = true): array
-    {
-        $query = "SELECT * FROM pages WHERE subject_id = {$subjectId} ";
-        if ($public) {
-            $query .= "AND visible = 1 ";
-        }
-        $query .= "ORDER BY position ASC";
-
-        $result = $this->db->query($query);
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
+  
     public function update_position_safely(int $subjectId, int $newPosition): bool
     {
         // Get current subject

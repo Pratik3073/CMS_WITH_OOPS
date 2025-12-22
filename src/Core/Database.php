@@ -47,6 +47,11 @@ class Database
         return $this->connection->real_escape_string($value);
     }
 
+    public function affected_rows(): int
+    {
+        return $this->connection->affected_rows;
+    }
+
     public function __destruct()
     {
         if (isset($this->connection)) {

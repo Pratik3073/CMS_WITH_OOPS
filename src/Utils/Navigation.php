@@ -25,7 +25,7 @@ class Navigation
     public function publicNavigation(?array $selSubject, ?array $selPage): string
     {
         $output = "<ul class=\"pl-0 list-none\">";
-        $subjects = $this->subjectModel->getAll(true);
+        $subjects = $this->subjectModel->get_all(true);
 
         foreach ($subjects as $subject) {
             $liClass = "block mb-[6px]";
@@ -58,7 +58,7 @@ class Navigation
     public function adminNavigation(?array $selSubject, ?array $selPage): string
     {
         $output = "<ul class=\"pl-0 list-none\">";
-        $subjects = $this->subjectModel->getAll(false);
+        $subjects = $this->subjectModel->get_all(false);
 
         foreach ($subjects as $subject) {
             $liClass = "block mb-[6px]";

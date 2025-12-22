@@ -13,7 +13,7 @@ class Subject
         $this->db = Database::getInstance();
     }
 
-    public function getAll(bool $public = true): array
+    public function get_all(bool $public = true): array
     {
         $query = "SELECT * FROM subjects ";
         if ($public) {
@@ -25,7 +25,7 @@ class Subject
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getById(int $id): ?array
+    public function get_by_subid(int $id): ?array
     {
         $query = "SELECT * FROM subjects WHERE id = {$id} LIMIT 1";
         $result = $this->db->query($query);

@@ -33,7 +33,7 @@ class Page
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function get_default_page(int $subjectId): ?array
+    public function getDefaultPage(int $subjectId): ?array
     {
         $query = "SELECT * FROM pages
                   WHERE subject_id = {$subjectId}
@@ -53,11 +53,11 @@ class Page
         if (isset($_GET['page'])) {
             $pageId = (int)$_GET['page'];
             $selPage = $pageModel->get_by_id($pageId);
-            $selSubject = $selPage ? $subjectModel->getById($selPage['subject_id']) : null;
+            $selSubject = $selPage ? $subjectModel->get_by_subid($selPage['subject_id']) : null;
 
         } elseif (isset($_GET['subj'])) {
             $subjectId = (int)$_GET['subj'];
-            $selSubject = $subjectModel->getById($subjectId);
+            $selSubject = $subjectModel->get_by_subid($subjectId);
             // Don't automatically select the default page when a subject is selected
             $selPage = null;
 

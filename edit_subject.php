@@ -119,7 +119,7 @@ $sel_page = $selected['page'];
 					if ($sel_subject['visible'] == 1) { echo " checked"; }
 					?> /> Yes
 				</p>
-				<input type="submit" name="submit" value="Edit Subject" />
+				<input type="submit" name="submit" value="Edit Subject" class="bg-[#8D0D19] text-white px-4 py-2 rounded cursor-pointer hover:bg-[#6D0A15]" />
 				&nbsp;&nbsp;
 				<a class="text-[#8D0D19] no-underline font-bold hover:underline" href="delete_subject.php?subj=<?php echo urlencode($sel_subject['id']); ?>" onclick="return confirm('Are you sure?');">Delete Subject</a>
 			</form>

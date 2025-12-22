@@ -32,4 +32,5 @@ class Page
         $result = $this->db->query($query);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+    
 }

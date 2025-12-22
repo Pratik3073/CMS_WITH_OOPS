@@ -18,7 +18,7 @@ class Navigation
 
     public function findSelectedPage(): array
     {
-        return Page::findSelectedPage($this->pageModel, $this->subjectModel);
+        return Page::find_selected_page($this->pageModel, $this->subjectModel);
     }
 
 

@@ -37,7 +37,7 @@ class Navigation
 
             // Show pages for the selected subject (whether selected directly or through a page)
             if ($selSubject && $subject['id'] == $selSubject['id']) {
-                $pages = $this->pageModel->getPages($subject['id'], true);
+                $pages = $this->pageModel->get_pages($subject['id'], true);
                 $output .= "<ul class=\"pl-8 list-square\">";
                 foreach ($pages as $page) {
                     $pageLiClass = "block mb-[6px]";
@@ -68,7 +68,7 @@ class Navigation
             $output .= "<li class=\"{$liClass}\"><a class=\"block text-[#D4E6F4] no-underline\" href=\"edit_subject.php?subj={$subject['id']}\">"
                     . htmlspecialchars($subject['menu_name']) . "</a></li>";
 
-            $pages = $this->pageModel->getPages($subject['id'], false);
+            $pages = $this->pageModel->get_pages($subject['id'], false);
             $output .= "<ul class=\"pl-8 list-square\">";
             foreach ($pages as $page) {
                 $pageLiClass = "block mb-[6px]";

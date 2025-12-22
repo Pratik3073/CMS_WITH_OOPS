@@ -78,4 +78,16 @@ class Subject
 
         return $this->db->getConnection()->affected_rows > 0;
     }
+
+    public function getAllForSubject(int $subjectId, bool $public = true): array
+    {
+        $query = "SELECT * FROM pages WHERE subject_id = {$subjectId} ";
+        if ($public) {
+            $query .= "AND visible = 1 ";
+        }
+        $query .= "ORDER BY position ASC";
+
+        $result = $this->db->query($query);
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }

@@ -21,11 +21,6 @@ class Page
         return $result->fetch_assoc() ?: null;
     }
 
-    public function getAllForSubject(int $subjectId, bool $public = true): array
-    {
-        return $this->getPages($subjectId, $public);
-    }
-
     public function getPages(int $subjectId, bool $public = true): array
     {
         $query = "SELECT * FROM pages WHERE subject_id = {$subjectId} ";

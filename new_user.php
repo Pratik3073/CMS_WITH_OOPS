@@ -29,9 +29,7 @@ if (isset($_POST['submit'])) {
 
         if ($userModel->create([
             'username' => $username,
-            'password' => $hashedPassword,
-            'first_name' => '',
-            'last_name' => ''
+            'password' => $hashedPassword
         ])) {
             $message  = "The user was successfully created.";
             $username = "";

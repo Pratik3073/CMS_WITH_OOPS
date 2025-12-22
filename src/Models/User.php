@@ -31,7 +31,7 @@ class User
 
     public function getAll(): array
     {
-        $query = "SELECT id, username, first_name, last_name FROM users ORDER BY username ASC";
+        $query = "SELECT id, username FROM users ORDER BY username ASC";
         $result = $this->db->query($query);
 
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -39,7 +39,7 @@ class User
 
     public function getById(int $id): ?array
     {
-        $query = "SELECT id, username, first_name, last_name FROM users WHERE id = {$id} LIMIT 1";
+        $query = "SELECT id, username FROM users WHERE id = {$id} LIMIT 1";
         $result = $this->db->query($query);
 
         return $result->fetch_assoc() ?: null;
@@ -49,11 +49,9 @@ class User
     {
         $username = $this->db->escape($data['username']);
         $password = $this->db->escape($data['password']);
-        $firstName = $this->db->escape($data['first_name']);
-        $lastName = $this->db->escape($data['last_name']);
 
-        $query = "INSERT INTO users (username, hashed_password, first_name, last_name)
-                  VALUES ('{$username}', '{$password}', '{$firstName}', '{$lastName}')";
+        $query = "INSERT INTO users (username, hashed_password)
+                  VALUES ('{$username}', '{$password}')";
 
         $result = $this->db->query($query);
         return $result !== false;
@@ -62,10 +60,8 @@ class User
     public function update(int $id, array $data): bool
     {
         $username = $this->db->escape($data['username']);
-        $firstName = $this->db->escape($data['first_name']);
-        $lastName = $this->db->escape($data['last_name']);
 
-        $query = "UPDATE users SET username = '{$username}', first_name = '{$firstName}', last_name = '{$lastName}' WHERE id = {$id}";
+        $query = "UPDATE users SET username = '{$username}' WHERE id = {$id}";
 
         $result = $this->db->query($query);
         return $this->db->getConnection()->affected_rows > 0;

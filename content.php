@@ -5,7 +5,7 @@ require_once("includes/session.php");
 use App\Utils\Helpers;
 use App\Utils\Navigation;
 
-Helpers::confirmLoggedIn();
+Helpers::confirmLoggedIn(); //uses the scope resolution operator :: and means you are calling a static method.
 
 $navigation = new Navigation();
 $selected = $navigation->findSelectedPage();

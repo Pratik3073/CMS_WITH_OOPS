@@ -45,7 +45,7 @@ $subjectModel = new Subject();
 					&nbsp;
 					<input type="radio" name="visible" value="1" /> Yes
 				</p>
-				<input type="submit" value="Add Subject" class="mt-2"/>
+				<input type="submit" value="Add Subject" class="m"/>
 			</form>
 			<br />
 			<a class="text-[#8D0D19] no-underline font-bold hover:underline" href="content.php">Cancel</a>

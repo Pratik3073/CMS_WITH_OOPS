@@ -9,6 +9,7 @@ use App\Models\Page;
 
 $pageModel = new Page();
 ?>
+<?php
 	// make sure the subject id sent is an integer
 	if (intval($_GET['page']) == 0) {
 		redirect_to('content.php');

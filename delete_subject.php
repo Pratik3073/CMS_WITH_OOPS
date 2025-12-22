@@ -9,6 +9,7 @@ use App\Models\Subject;
 
 $subjectModel = new Subject();
 ?>
+<?php
 	if (intval($_GET['subj']) == 0) {
 		redirect_to("content.php");
 	}

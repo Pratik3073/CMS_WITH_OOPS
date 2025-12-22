@@ -45,4 +45,25 @@ class Page
         return $result->fetch_assoc() ?: null;
     }
 
+    public static function findSelectedPage(Page $pageModel, Subject $subjectModel): array
+    {
+        $selSubject = null;
+        $selPage = null;
+
+        if (isset($_GET['page'])) {
+            $pageId = (int)$_GET['page'];
+            $selPage = $pageModel->getById($pageId);
+            $selSubject = $selPage ? $subjectModel->getById($selPage['subject_id']) : null;
+
+        } elseif (isset($_GET['subj'])) {
+            $subjectId = (int)$_GET['subj'];
+            $selSubject = $subjectModel->getById($subjectId);
+            // Don't automatically select the default page when a subject is selected
+            $selPage = null;
+
+        }
+
+        return ['subject' => $selSubject, 'page' => $selPage];
+    }
+
 }

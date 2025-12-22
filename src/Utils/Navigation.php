@@ -18,24 +18,9 @@ class Navigation
 
     public function findSelectedPage(): array
     {
-        $selSubject = null;
-        $selPage = null;
-
-        if (isset($_GET['page'])) {
-            $pageId = (int)$_GET['page'];
-            $selPage = $this->pageModel->getById($pageId);
-            $selSubject = $selPage ? $this->subjectModel->getById($selPage['subject_id']) : null;
-
-        } elseif (isset($_GET['subj'])) {
-            $subjectId = (int)$_GET['subj'];
-            $selSubject = $this->subjectModel->getById($subjectId);
-            // Don't automatically select the default page when a subject is selected
-            $selPage = null;
-
-        }
-
-        return ['subject' => $selSubject, 'page' => $selPage];
+        return Page::findSelectedPage($this->pageModel, $this->subjectModel);
     }
+
 
     public function publicNavigation(?array $selSubject, ?array $selPage): string
     {

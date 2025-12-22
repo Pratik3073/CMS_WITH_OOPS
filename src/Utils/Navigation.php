@@ -3,14 +3,17 @@
 namespace App\Utils;
 
 use App\Models\Subject;
+use App\Models\Page;
 
 class Navigation
 {
     private Subject $subjectModel;
+    private Page $pageModel;
 
     public function __construct()
     {
         $this->subjectModel = new Subject();
+        $this->pageModel = new Page();
     }
 
     public function findSelectedPage(): array
@@ -50,7 +53,7 @@ class Navigation
 
             // Show pages for the selected subject (whether selected directly or through a page)
             if ($selSubject && $subject['id'] == $selSubject['id']) {
-                $pages = $this->subjectModel->getPages($subject['id'], true);
+                $pages = $this->pageModel->getPages($subject['id'], true);
                 $output .= "<ul class=\"pl-8 list-square\">";
                 foreach ($pages as $page) {
                     $pageLiClass = "block mb-[6px]";
@@ -81,7 +84,7 @@ class Navigation
             $output .= "<li class=\"{$liClass}\"><a class=\"block text-[#D4E6F4] no-underline\" href=\"edit_subject.php?subj={$subject['id']}\">"
                     . htmlspecialchars($subject['menu_name']) . "</a></li>";
 
-            $pages = $this->subjectModel->getPages($subject['id'], false);
+            $pages = $this->pageModel->getPages($subject['id'], false);
             $output .= "<ul class=\"pl-8 list-square\">";
             foreach ($pages as $page) {
                 $pageLiClass = "block mb-[6px]";

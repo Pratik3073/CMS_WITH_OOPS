@@ -33,30 +33,6 @@ class Subject
         return $result->fetch_assoc() ?: null;
     }
 
-    public function getPages(int $subjectId, bool $public = true): array
-    {
-        $query = "SELECT * FROM pages WHERE subject_id = {$subjectId} ";
-        if ($public) {
-            $query .= "AND visible = 1 ";
-        }
-        $query .= "ORDER BY position ASC";
-
-        $result = $this->db->query($query);
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function getDefaultPage(int $subjectId): ?array
-    {
-        $query = "SELECT * FROM pages
-                  WHERE subject_id = {$subjectId}
-                  AND visible = 1
-                  ORDER BY position ASC
-                  LIMIT 1";
-
-        $result = $this->db->query($query);
-        return $result->fetch_assoc() ?: null;
-    }
-
     public function normalizePositions(): bool
     {
         $query = "SELECT id FROM subjects ORDER BY position ASC, id ASC";

@@ -22,7 +22,7 @@ class Navigation
     }
 
 
-    public function publicNavigation(?array $selSubject, ?array $selPage): string
+    public function public_navigation(?array $selSubject, ?array $selPage): string
     {
         $output = "<ul class=\"pl-0 list-none\">";
         $subjects = $this->subjectModel->get_all(true);
@@ -55,7 +55,7 @@ class Navigation
         return $output . "</ul>";
     }
 
-    public function adminNavigation(?array $selSubject, ?array $selPage): string
+    public function admin_navigation(?array $selSubject, ?array $selPage): string
     {
         $output = "<ul class=\"pl-0 list-none\">";
         $subjects = $this->subjectModel->get_all(false);

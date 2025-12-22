@@ -3,6 +3,15 @@
 <?php require_once("includes/functions.php"); ?>
 <?php confirm_logged_in(); ?>
 <?php
+require_once("vendor/autoload.php");
+
+use App\Models\Subject;
+use App\Models\Page;
+
+$subjectModel = new Subject();
+$pageModel = new Page();
+?>
+<?php
 		if (intval($_GET['subj']) == 0) {
 			redirect_to("content.php");
 		}
@@ -36,7 +45,7 @@
 
 				if ($result) {
 					// Handle position update with conflict resolution
-					if (update_subject_position_safely($id, $position)) {
+					if ($subjectModel->update_position_safely($id, $position)) {
 						$message = "The subject was successfully updated.";
 					} else {
 						$message = "The subject update failed during position change.";
@@ -96,8 +105,8 @@ $sel_page = $selected['page'];
 				<p class="mb-4 " >Position:
 					<select name="position" class="rounded-sm">
 						<?php
-							$subject_set = get_all_subjects(false); // Include hidden subjects
-							$subject_count = mysqli_num_rows($subject_set);
+							$subject_set = $subjectModel->get_all(false); // Include hidden subjects
+							$subject_count = count($subject_set);
 							// Show positions from 1 to subject_count, but ensure current position is included
 							$max_position = max($subject_count, $sel_subject['position']);
 							for($count=1; $count <= $max_position; $count++) {
@@ -129,8 +138,8 @@ $sel_page = $selected['page'];
 				<h3 class="text-[#8D0D19]">Pages in this subject:</h3>
 				<ul class="list-disc pl-5 my-[10px]">
 <?php
-	$subject_pages = get_pages_for_subject($sel_subject['id']);
-	while($page = mysqli_fetch_array($subject_pages)) {
+	$subject_pages = $pageModel->get_pages($sel_subject['id']);
+	foreach($subject_pages as $page) {
 		echo "<li class=\"mb-2\"><a class=\"text-[#8D0D19] no-underline font-bold hover:underline\" href=\"content.php?page={$page['id']}\">
 		{$page['menu_name']}</a></li>";
 	}

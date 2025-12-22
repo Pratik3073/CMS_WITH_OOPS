@@ -3,6 +3,12 @@
 <?php require_once("includes/functions.php"); ?>
 <?php confirm_logged_in(); ?>
 <?php
+require_once("vendor/autoload.php");
+
+use App\Models\Page;
+
+$pageModel = new Page();
+?>
 	// make sure the subject id sent is an integer
 	if (intval($_GET['page']) == 0) {
 		redirect_to('content.php');
@@ -12,7 +18,7 @@
 	// make sure the page exists (not strictly necessary)
 	// it gives some extra security and allows use of 
 	// the page's subject_id for the redirect
-	if ($page = get_page_by_id($id)) {
+	if ($page = $pageModel->get_by_id($id)) {
 		// LIMIT 1 isn't necessary but is a good fail safe
 		$query = "DELETE FROM pages WHERE id = {$page['id']} LIMIT 1";
 		$result = mysqli_query($connection, $query);

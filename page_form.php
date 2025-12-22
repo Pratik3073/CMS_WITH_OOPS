@@ -2,6 +2,13 @@
 <?php confirm_logged_in(); ?>
 <?php // included by new_page.php and edit_page.php ?>
 <?php if (!isset($new_page)) { $new_page = false; } ?>
+<?php
+require_once("vendor/autoload.php");
+
+use App\Models\Page;
+
+$pageModel = new Page();
+?>
 
 <p class="mb-4 mt-4">
     Page name:
@@ -16,11 +23,11 @@
     <select name="position">
         <?php
         if (!$new_page) {
-            $page_set   = get_pages_for_subject($sel_page['subject_id']);
-            $page_count = mysqli_num_rows($page_set);
+            $page_set   = $pageModel->get_pages($sel_page['subject_id']);
+            $page_count = count($page_set);
         } else {
-            $page_set   = get_pages_for_subject($sel_subject['id']);
-            $page_count = mysqli_num_rows($page_set) + 1;
+            $page_set   = $pageModel->get_pages($sel_subject['id']);
+            $page_count = count($page_set) + 1;
         }
 
         for ($count = 1; $count <= $page_count; $count++) {

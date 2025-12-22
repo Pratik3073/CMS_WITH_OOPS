@@ -57,12 +57,22 @@
 		// END FORM PROCESSING
 	}
 ?>
-<?php find_selected_page(); ?>
+<?php
+require_once("vendor/autoload.php");
+
+use App\Utils\Navigation;
+
+/* MUST be called AFTER autoload */
+$navigation = new Navigation();
+$selected = $navigation->findSelectedPage();
+$sel_subject = $selected['subject'];
+$sel_page = $selected['page'];
+?>
 <?php include("includes/header.php"); ?>
 <table class="h-[600px] w-full border-collapse align-top text-sm leading-[15px]">
 	<tr>
 		<td class="w-40 p-8 text-[#D4E6F4] bg-[#8D0D19] align-top">
-			<?php echo navigation($sel_subject, $sel_page, $public = false); ?>
+			<?php echo $navigation->admin_navigation($sel_subject, $sel_page); ?>
 			<br />
 			<a class="block text-[#D4E6F4] no-underline" href="new_subject.php">+ Add a new subject</a>
 		</td>

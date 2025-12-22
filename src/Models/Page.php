@@ -10,7 +10,7 @@ class Page
 
     public function __construct()
     {
-        $this->db = Database::getInstance();
+        $this->db = Database::get_instance();
     }
 
     public function get_by_id(int $id): ?array

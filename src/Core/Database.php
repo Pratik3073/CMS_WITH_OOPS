@@ -20,7 +20,7 @@ class Database
         }
     }
 
-    public static function getInstance(): Database
+    public static function get_instance(): Database
     {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -28,7 +28,7 @@ class Database
         return self::$instance;
     }
 
-    public function getConnection(): mysqli
+    public function get_connection(): mysqli
     {
         return $this->connection;
     }

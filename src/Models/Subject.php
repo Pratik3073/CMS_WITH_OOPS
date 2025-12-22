@@ -10,7 +10,7 @@ class Subject
 
     public function __construct()
     {
-        $this->db = Database::getInstance();
+        $this->db = Database::get_instance();
     }
 
     public function get_all(bool $public = true): array

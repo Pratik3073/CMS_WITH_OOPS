@@ -10,7 +10,7 @@ class User
 
     public function __construct()
     {
-        $this->db = Database::getInstance();
+        $this->db = Database::get_instance();
     }
 
     public function authenticate(string $username, string $password): ?array

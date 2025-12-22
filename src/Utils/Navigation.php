@@ -23,8 +23,7 @@ class Navigation
 
         if (isset($_GET['page'])) {
             $pageId = (int)$_GET['page'];
-            $pageModel = new \App\Models\Page();
-            $selPage = $pageModel->getById($pageId);
+            $selPage = $this->pageModel->getById($pageId);
             $selSubject = $selPage ? $this->subjectModel->getById($selPage['subject_id']) : null;
 
         } elseif (isset($_GET['subj'])) {

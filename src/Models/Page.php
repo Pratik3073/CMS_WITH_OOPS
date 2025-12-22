@@ -13,7 +13,7 @@ class Page
         $this->db = Database::getInstance();
     }
 
-    public function getById(int $id): ?array
+    public function get_by_id(int $id): ?array
     {
         $query = "SELECT * FROM pages WHERE id = {$id} LIMIT 1";
         $result = $this->db->query($query);
@@ -52,7 +52,7 @@ class Page
 
         if (isset($_GET['page'])) {
             $pageId = (int)$_GET['page'];
-            $selPage = $pageModel->getById($pageId);
+            $selPage = $pageModel->get_by_id($pageId);
             $selSubject = $selPage ? $subjectModel->getById($selPage['subject_id']) : null;
 
         } elseif (isset($_GET['subj'])) {

@@ -33,7 +33,7 @@ class Subject
         return $result->fetch_assoc() ?: null;
     }
 
-    public function getAllForSubject(int $subjectId, bool $public = true): array
+    public function getAllSubject(int $subjectId, bool $public = true): array
     {
         $query = "SELECT * FROM pages WHERE subject_id = {$subjectId} ";
         if ($public) {

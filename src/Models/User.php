@@ -29,7 +29,7 @@ class User
         return null;
     }
 
-    public function getAll(): array
+    public function get_all(): array
     {
         $query = "SELECT id, username FROM users ORDER BY username ASC";
         $result = $this->db->query($query);
@@ -37,7 +37,7 @@ class User
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getById(int $id): ?array
+    public function get_by_id(int $id): ?array
     {
         $query = "SELECT id, username FROM users WHERE id = {$id} LIMIT 1";
         $result = $this->db->query($query);

@@ -33,7 +33,7 @@ class Page
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getDefaultPage(int $subjectId): ?array
+    public function get_default_page(int $subjectId): ?array
     {
         $query = "SELECT * FROM pages
                   WHERE subject_id = {$subjectId}

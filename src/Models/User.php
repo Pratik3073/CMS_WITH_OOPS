@@ -56,22 +56,4 @@ class User
         $result = $this->db->query($query);
         return $result !== false;
     }
-
-    public function update(int $id, array $data): bool
-    {
-        $username = $this->db->escape($data['username']);
-
-        $query = "UPDATE users SET username = '{$username}' WHERE id = {$id}";
-
-        $result = $this->db->query($query);
-        return $this->db->getConnection()->affected_rows > 0;
-    }
-
-    public function delete(int $id): bool
-    {
-        $query = "DELETE FROM users WHERE id = {$id}";
-        $result = $this->db->query($query);
-
-        return $this->db->getConnection()->affected_rows > 0;
-    }
 }

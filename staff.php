@@ -4,7 +4,7 @@ require_once("includes/session.php");
 
 use App\Utils\Helpers;
 
-Helpers::confirmLoggedIn();
+Helpers::confirm_logged_in();
 include("includes/header.php");
 ?>
 <table class="h-[600px] w-full border-collapse align-top text-sm leading-[15px]">

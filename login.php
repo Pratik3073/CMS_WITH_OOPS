@@ -5,7 +5,7 @@ require_once("includes/session.php");
 use App\Utils\Helpers;
 
 if (isset($_SESSION['user_id'])) {
-    Helpers::redirectTo("staff.php");
+    Helpers::redirect_to("staff.php");
 }
 
 $message = "";
@@ -19,8 +19,8 @@ if (isset($_POST['submit'])) {
     if (empty($username) || empty($password)) {
         $message = "Username and password are required.";
     } else {
-        if (Helpers::attemptLogin($username, $password)) {
-            Helpers::redirectTo("staff.php");
+        if (Helpers::attempt_login($username, $password)) {
+            Helpers::redirect_to("staff.php");
         } else {
             $message = "Username / password incorrect.";
         }

@@ -6,7 +6,7 @@ require_once("includes/session.php");
 use App\Utils\Helpers;
 use App\Models\User;
 
-Helpers::confirmLoggedIn();
+Helpers::confirm_logged_in();
 
 $userModel = new User();
 $username = "";

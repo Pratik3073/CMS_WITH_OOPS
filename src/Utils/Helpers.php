@@ -4,7 +4,7 @@ namespace App\Utils;
 
 class Helpers
 {
-    public static function redirectTo(?string $location = null): void
+    public static function redirect_to(?string $location = null): void
     {
         if ($location !== null) {
             header("Location: {$location}");
@@ -12,14 +12,14 @@ class Helpers
         }
     }
 
-    public static function confirmLoggedIn(): void
+    public static function confirm_logged_in(): void
     {
         if (!isset($_SESSION['user_id'])) {
-            self::redirectTo('login.php');
+            self::redirect_to('login.php');
         }
     }
 
-    public static function attemptLogin(string $username, string $password): bool
+    public static function attempt_login(string $username, string $password): bool
     {
         $userModel = new \App\Models\User();
         $user = $userModel->authenticate($username, $password);
@@ -37,6 +37,6 @@ class Helpers
     {
         $_SESSION = [];
         session_destroy();
-        self::redirectTo('login.php');
+        self::redirect_to('login.php');
     }
 }

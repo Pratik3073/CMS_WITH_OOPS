@@ -29,7 +29,7 @@ $subjectModel = new Subject();
 					<input type="text" name="menu_name" value="" id="menu_name" />
 				</p>
 				<p>Position:
-					<select name="position">
+					<select name="position" class="mt-1">
 						<?php
 							$subject_set = $subjectModel->get_all();
 							$subject_count = count($subject_set);
@@ -40,12 +40,12 @@ $subjectModel = new Subject();
 						?>
 					</select>
 				</p>
-				<p>Visible:
+				<p class="mt-1">Visible:
 					<input type="radio" name="visible" value="0" /> No
 					&nbsp;
 					<input type="radio" name="visible" value="1" /> Yes
 				</p>
-				<input type="submit" value="Add Subject" />
+				<input type="submit" value="Add Subject" class="mt-2"/>
 			</form>
 			<br />
 			<a class="text-[#8D0D19] no-underline font-bold hover:underline" href="content.php">Cancel</a>

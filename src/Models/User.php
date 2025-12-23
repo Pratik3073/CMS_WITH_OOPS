@@ -29,15 +29,6 @@ class User
         return null;
     }
 
-    public function get_all(): array
-    {
-        $query = "SELECT id, username FROM users ORDER BY username ASC";
-        $result = $this->db->query($query);
-
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-   
 
     public function create(array $data): bool
     {

@@ -16,7 +16,7 @@ $subjectModel = new Subject();
 	
 	$id = mysql_prep($_GET['subj']);
 	
-	if ($subject = $subjectModel->get_by_subid($id)) {
+	if ($subject = $subjectModel->get_by_subject($id)) {
 		
 		$query = "DELETE FROM subjects WHERE id = {$id} LIMIT 1";
 		$result = mysqli_query($connection, $query);

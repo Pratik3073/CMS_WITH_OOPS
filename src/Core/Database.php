@@ -20,7 +20,7 @@ class Database
         }
     }
 
-    public static function get_instance(): Database  //self means the current class itself.
+    public static function get_instance(): Database  //
     {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -58,4 +58,13 @@ class Database
             $this->connection->close();
         }
     }
+    public function prepare(string $sql): \mysqli_stmt
+{
+    $stmt = $this->connection->prepare($sql);
+    if (!$stmt) {
+        die("Prepare failed: " . $this->connection->error);
+    }
+    return $stmt;
+}
+
 }

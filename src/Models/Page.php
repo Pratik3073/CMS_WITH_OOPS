@@ -15,35 +15,68 @@ class Page
 
     public function get_by_id(int $id): ?array
     {
-        $query = "SELECT * FROM pages WHERE id = {$id} LIMIT 1";
-        $result = $this->db->query($query);
-
-        return $result->fetch_assoc() ?: null;
+        $stmt = $this->db->prepare("SELECT * FROM pages WHERE id = ? LIMIT 1");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+    
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+    
+        $stmt->close();
+    
+        return $data ?: null;
     }
+    
 
     public function get_pages(int $subjectId, bool $public = true): array
     {
-        $query = "SELECT * FROM pages WHERE subject_id = {$subjectId} ";
         if ($public) {
-            $query .= "AND visible = 1 ";
+            $stmt = $this->db->prepare(
+                "SELECT * FROM pages 
+                 WHERE subject_id = ? AND visible = 1 
+                 ORDER BY position ASC"
+            );
+            $stmt->bind_param("i", $subjectId);
+        } else {
+            $stmt = $this->db->prepare(
+                "SELECT * FROM pages 
+                 WHERE subject_id = ? 
+                 ORDER BY position ASC"
+            );
+            $stmt->bind_param("i", $subjectId);
         }
-        $query .= "ORDER BY position ASC";
-
-        $result = $this->db->query($query);
-        return $result->fetch_all(MYSQLI_ASSOC);
+    
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+    
+        $stmt->close();
+    
+        return $data;
     }
+    
 
     public function get_default_page(int $subjectId): ?array
     {
-        $query = "SELECT * FROM pages
-                  WHERE subject_id = {$subjectId}
-                  AND visible = 1
-                  ORDER BY position ASC
-                  LIMIT 1";
-
-        $result = $this->db->query($query);
-        return $result->fetch_assoc() ?: null;
+        $stmt = $this->db->prepare(
+            "SELECT * FROM pages
+             WHERE subject_id = ?
+             AND visible = 1
+             ORDER BY position ASC
+             LIMIT 1"
+        );
+    
+        $stmt->bind_param("i", $subjectId);
+        $stmt->execute();
+    
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+    
+        $stmt->close();
+    
+        return $data ?: null;
     }
+    
 
     public static function find_selected_page(Page $pageModel, Subject $subjectModel): array
     {
@@ -53,11 +86,11 @@ class Page
         if (isset($_GET['page'])) {
             $pageId = (int)$_GET['page'];
             $selPage = $pageModel->get_by_id($pageId);
-            $selSubject = $selPage ? $subjectModel->get_by_subid($selPage['subject_id']) : null;
+            $selSubject = $selPage ? $subjectModel->get_by_subject($selPage['subject_id']) : null;
 
         } elseif (isset($_GET['subj'])) {
             $subjectId = (int)$_GET['subj'];
-            $selSubject = $subjectModel->get_by_subid($subjectId);
+            $selSubject = $subjectModel->get_by_subject($subjectId);
             // Don't automatically select the default page when a subject is selected
             $selPage = null;
 

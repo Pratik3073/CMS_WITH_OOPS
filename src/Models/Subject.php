@@ -14,64 +14,112 @@ class Subject
     }
 
     public function get_all(bool $public = true): array
-    {
-        $query = "SELECT * FROM subjects ";
-        if ($public) {
-            $query .= "WHERE visible = 1 ";
-        }
-        $query .= "ORDER BY position ASC";
-
-        $result = $this->db->query($query);
-        return $result->fetch_all(MYSQLI_ASSOC);
+{
+    if ($public) {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM subjects
+             WHERE visible = 1
+             ORDER BY position ASC"
+        );
+    } else {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM subjects
+             ORDER BY position ASC"
+        );
     }
 
-    public function get_by_subid(int $id): ?array
-    {
-        $query = "SELECT * FROM subjects WHERE id = {$id} LIMIT 1";
-        $result = $this->db->query($query);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
 
-        return $result->fetch_assoc() ?: null;
-    }
+    $stmt->close();
+
+    return $data;
+}
+
+
+public function get_by_subject(int $id): ?array
+{
+    $stmt = $this->db->prepare(
+        "SELECT * FROM subjects WHERE id = ? LIMIT 1"
+    );
+
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $data = $result->fetch_assoc();
+
+    $stmt->close();
+
+    return $data ?: null;
+}
+
 
   
-    public function update_position_safely(int $subjectId, int $newPosition): bool
-    {
-        // Get current subject
-        $subject = $this->get_by_subid($subjectId);
-        if (!$subject) return false;
-
-        $currentPosition = $subject['position'];
-
-        // If position hasn't changed, do nothing
-        if ($currentPosition == $newPosition) {
-            return true;
-        }
-
-        // Check if new position is already taken
-        $query = "SELECT id FROM subjects WHERE position = {$newPosition} AND id != {$subjectId}";
-        $result = $this->db->query($query);
-
-        if ($result->num_rows > 0) {
-            // Position is taken, shift other subjects
-            if ($newPosition > $currentPosition) {
-                // Moving to higher position - shift subjects between current and new position up
-                $query = "UPDATE subjects SET position = position - 1
-                         WHERE position > {$currentPosition} AND position <= {$newPosition} AND id != {$subjectId}";
-            } else {
-                // Moving to lower position - shift subjects between new and current position down
-                $query = "UPDATE subjects SET position = position + 1
-                         WHERE position >= {$newPosition} AND position < {$currentPosition} AND id != {$subjectId}";
-            }
-            $updateResult = $this->db->query($query);
-            if (!$updateResult) {
-                return false;
-            }
-        }
-
-        // Update the subject to new position
-        $query = "UPDATE subjects SET position = {$newPosition} WHERE id = {$subjectId}";
-        $result = $this->db->query($query);
-
-        return $result !== false && $this->db->affected_rows() > 0;
+public function update_position_safely(int $subjectId, int $newPosition): bool
+{
+    // 1. Get current subject
+    $subject = $this->get_by_subject($subjectId);
+    if (!$subject) {
+        return false;
     }
+
+    $currentPosition = (int) $subject['position'];
+
+    // 2. If position has not changed, do nothing
+    if ($currentPosition === $newPosition) {
+        return true;
+    }
+
+    // 3. Check if new position is already taken
+    $stmt = $this->db->prepare(
+        "SELECT id FROM subjects WHERE position = ? AND id != ?"
+    );
+    $stmt->bind_param("ii", $newPosition, $subjectId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $isTaken = $result->num_rows > 0;
+    $stmt->close();
+
+    // 4. Shift other subjects if needed
+    if ($isTaken) {
+        if ($newPosition > $currentPosition) {
+            // Moving DOWN (numerically higher)
+            $stmt = $this->db->prepare(
+                "UPDATE subjects
+                 SET position = position - 1
+                 WHERE position > ? AND position <= ? AND id != ?"
+            );
+            $stmt->bind_param("iii", $currentPosition, $newPosition, $subjectId);
+        } else {
+            // Moving UP (numerically lower)
+            $stmt = $this->db->prepare(
+                "UPDATE subjects
+                 SET position = position + 1
+                 WHERE position >= ? AND position < ? AND id != ?"
+            );
+            $stmt->bind_param("iii", $newPosition, $currentPosition, $subjectId);
+        }
+
+        if (!$stmt->execute()) {
+            $stmt->close();
+            return false;
+        }
+        $stmt->close();
+    }
+
+    // 5. Update the subject to the new position
+    $stmt = $this->db->prepare(
+        "UPDATE subjects SET position = ? WHERE id = ?"
+    );
+    $stmt->bind_param("ii", $newPosition, $subjectId);
+    $stmt->execute();
+
+    $affected = $stmt->affected_rows;
+    $stmt->close();
+
+    return $affected > 0;
+}
+
 }

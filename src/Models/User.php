@@ -15,30 +15,42 @@ class User
 
     public function authenticate(string $username, string $password): ?array
     {
-        $username = $this->db->escape($username);
-
-        $query = "SELECT * FROM users WHERE username = '{$username}' LIMIT 1";
-        $result = $this->db->query($query);
-
+        $stmt = $this->db->prepare(
+            "SELECT * FROM users WHERE username = ? LIMIT 1"
+        );
+    
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+    
+        $result = $stmt->get_result();
         $user = $result->fetch_assoc();
-
+    
+        $stmt->close();
+    
         if ($user && password_verify($password, $user['hashed_password'])) {
             return $user;
         }
-
+    
         return null;
     }
+    
 
 
     public function create(array $data): bool
     {
-        $username = $this->db->escape($data['username']);
-        $password = $this->db->escape($data['password']);
-
-        $query = "INSERT INTO users (username, hashed_password)
-                  VALUES ('{$username}', '{$password}')";
-
-        $result = $this->db->query($query);
-        return $result !== false;
+        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+    
+        $stmt = $this->db->prepare(
+            "INSERT INTO users (username, hashed_password)
+             VALUES (?, ?)"
+        );
+    
+        $stmt->bind_param("ss", $data['username'], $hashedPassword);
+    
+        $success = $stmt->execute();
+        $stmt->close();
+    
+        return $success;
     }
+    
 }

@@ -37,13 +37,7 @@ class User
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function get_by_id(int $id): ?array
-    {
-        $query = "SELECT id, username FROM users WHERE id = {$id} LIMIT 1";
-        $result = $this->db->query($query);
-
-        return $result->fetch_assoc() ?: null;
-    }
+   
 
     public function create(array $data): bool
     {

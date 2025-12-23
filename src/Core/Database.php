@@ -20,7 +20,7 @@ class Database
         }
     }
 
-    public static function get_instance(): Database
+    public static function get_instance(): Database  //self means the current class itself.
     {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -44,7 +44,7 @@ class Database
 
     public function escape(string $value): string
     {
-        return $this->connection->real_escape_string($value);
+        return $this->connection->real_escape_string($value); //escapes special characters in a string before sending it to MySQL.
     }
 
     public function affected_rows(): int
